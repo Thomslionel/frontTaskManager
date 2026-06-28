@@ -39,27 +39,7 @@ export class Dashbord implements OnInit {
     private dashboardService: DashboardService
   ) {}
 
-  // =====================
-  // CHART DATA
-  // =====================
-  pieChartData: ChartConfiguration<'pie'>['data'] = {
-    labels: ['TODO', 'IN PROGRESS', 'DONE'],
-    datasets: [
-      {
-        data: [0, 0, 0],
-        backgroundColor: ['#f59e0b', '#3b82f6', '#22c55e'],
-      },
-    ],
-  };
-
-  pieChartOptions: ChartOptions<'pie'> = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'bottom',
-      },
-    },
-  };
+  
 
   // =====================
   // INIT
