@@ -67,12 +67,7 @@ export class Dashbord implements OnInit {
         this.todoTasks = stats.todoTasks;
         this.inProgressTasks = stats.inProgressTasks;
 
-        // UPDATE CHART
-        this.pieChartData.datasets[0].data = [
-          this.todoTasks,
-          this.inProgressTasks,
-          this.doneTasks,
-        ];
+
 
         this.loading = false;
       },
