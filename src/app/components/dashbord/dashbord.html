@@ -1,0 +1,120 @@
+<div class="dashboard-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2>Task Manager</h2>
+
+    <nav>
+      <button [class.active]="selectedPage === 'dashboard'"
+              (click)="selectedPage='dashboard'">
+        🏠 Dashboard
+      </button>
+
+      <button [class.active]="selectedPage === 'categories'"
+              (click)="selectedPage='categories'">
+        📁 Catégories
+      </button>
+
+      <button [class.active]="selectedPage === 'tasks'"
+              (click)="selectedPage='tasks'">
+        ✅ Tâches
+      </button>
+
+      <button class="logout-btn" (click)="logout()">
+        🚪 Logout
+      </button>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <!-- TOPBAR (RESTE TOUJOURS VISIBLE) -->
+    <header class="topbar">
+      <h1>{{ pageTitle }}</h1>
+      <span>Bienvenue, {{ userName }}</span>
+    </header>
+
+    <!-- CONTENT -->
+    <section class="content">
+
+      <!-- LOADING -->
+      @if (loading) {
+        <p class="loading">Chargement du dashboard...</p>
+      }
+
+      <!-- DASHBOARD -->
+      @if (selectedPage === 'dashboard' && !loading) {
+
+        <div class="cards">
+
+          <div class="card primary">
+            <h3>📁 Catégories</h3>
+            <p>{{ totalCategories }}</p>
+          </div>
+
+          <div class="card">
+            <h3>📝 Tâches</h3>
+            <p>{{ totalTasks }}</p>
+          </div>
+
+          <div class="card success">
+            <h3>✅ Terminées</h3>
+            <p>{{ doneTasks }}</p>
+          </div>
+
+          <div class="card warning">
+            <h3>⏳ En cours</h3>
+            <p>{{ inProgressTasks }}</p>
+          </div>
+
+          <div class="card danger">
+            <h3>📌 À faire</h3>
+            <p>{{ todoTasks }}</p>
+          </div>
+
+        </div>
+
+      }
+
+      <!-- CATEGORIES PAGE -->
+      @if (selectedPage === 'categories') {
+        <app-categories></app-categories>
+      }
+
+      <!-- TASKS PAGE -->
+      @if (selectedPage === 'tasks') {
+        <app-taches></app-taches>
+      }
+
+    </section>
+
+
+
+    <!-- FOOTER -->
+<footer class="dashboard-footer">
+  <div class="footer-content">
+    
+    <p>© {{ currentYear }} Task Manager - Tous droits réservés</p>
+
+    <div class="social-links">
+      
+      <a href="https://www.linkedin.com/in/TON-PROFIL" target="_blank">
+        🔗 LinkedIn
+      </a>
+
+      <a href="https://wa.me/52027905" target="_blank">
+        📱 WhatsApp
+      </a>
+
+      <a href="mailto:thomsmanly@gmail.com">
+        ✉️ Email
+      </a>
+
+    </div>
+
+  </div>
+</footer>
+  </main>
+
+</div>

@@ -1,0 +1,120 @@
+<div class="dashboard-container">
+
+    <!-- EN-TÊTE DU TABLEAU DE BORD -->
+    <header class="dashboard-header">
+        <div class="header-info">
+            <h1>Mon Journal de Tâches</h1>
+            <p class="subtitle">Vue Liste • {{ tasks().length }} tâches enregistrées</p>
+        </div>
+
+        <button class="btn-primary" (click)="showForm = !showForm" [class.active]="showForm">
+            {{ showForm ? '✕ Masquer' : '➕ Ajouter une tâche' }}
+        </button>
+    </header>
+
+    <!-- FORMULAIRE EXTENSIBLE -->
+    <div class="form-section" [class.is-open]="showForm">
+        <form (ngSubmit)="createTask()" class="task-form">
+            <div class="form-row">
+                <input type="text" name="title" [(ngModel)]="newTask.title" placeholder="Intitulé de la tâche *"
+                    required class="input-main">
+
+                <select name="category_id" [(ngModel)]="newTask.category_id" required class="select-field">
+                    <option [ngValue]="undefined" disabled selected>Sélectionner une catégorie *</option>
+                    <option *ngFor="let cat of categories()" [ngValue]="cat.id">{{ cat.name }}</option>
+                </select>
+
+                <select name="priority" [(ngModel)]="newTask.priority" required class="select-field">
+                    <option [ngValue]="undefined" disabled selected>Priorité *</option>
+                    <option value="LOW">Basse</option>
+                    <option value="MEDIUM">Moyenne</option>
+                    <option value="HIGH">Haute</option>
+                </select>
+
+                <input type="date" name="due_date" [(ngModel)]="newTask.due_date" class="date-field">
+            </div>
+
+            <div class="form-row">
+                <textarea name="description" [(ngModel)]="newTask.description"
+                    placeholder="Description ou notes complémentaires..." class="textarea-field"></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-success" [disabled]="loading()">
+                    <span>Enregistrer la tâche</span>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- LISTE DES TÂCHES STYLE TABLEAU GESTIONNAIRE -->
+    <div class="list-wrapper" *ngIf="tasks().length > 0">
+
+        <!-- En-têtes de colonnes discrets -->
+        <div class="list-header-row">
+            <div class="col-status">Statut</div>
+            <div class="col-main">Détails de la tâche</div>
+            <div class="col-meta">Catégorie</div>
+            <div class="col-priority">Priorité</div>
+            <div class="col-date">Échéance</div>
+            <div class="col-actions">Actions</div>
+        </div>
+
+        <!-- Boucle unique sur toutes les tâches -->
+        <div class="list-body">
+            <div *ngFor="let task of tasks()" class="task-row"
+                [ngClass]="['prio-' + (task.priority | lowercase), 'status-' + (task.status | lowercase)]">
+
+                <!-- Colonne Statut : Sélecteur rapide ou indicateur -->
+                <div class="col-status">
+                    <select [ngModel]="task.status" (ngModelChange)="changeStatus(task, $event)" class="status-select">
+                        <option value="TODO">À faire</option>
+                        <option value="IN_PROGRESS">En cours</option>
+                        <option value="DONE">Terminé</option>
+                    </select>
+                </div>
+
+                <!-- Colonne Principale : Titre + Description -->
+                <div class="col-main">
+                    <div class="task-title-wrapper">
+                        <span class="status-dot"></span>
+                        <h3 class="task-title">{{ task.title }}</h3>
+                    </div>
+                    <p class="task-desc" *ngIf="task.description">{{ task.description }}</p>
+                </div>
+
+                <!-- Colonne Catégorie -->
+                <div class="col-meta">
+                    <span class="tag-category">
+                        {{ getCategoryName(task.category_id) }}
+                    </span>
+                </div>
+
+                <!-- Colonne Priorité -->
+                <div class="col-priority">
+                    <span class="badge-priority">{{ task.priority }}</span>
+                </div>
+
+                <!-- Colonne Date -->
+                <div class="col-date">
+                    <span class="date-text" *ngIf="task.due_date">{{ task.due_date | date:'mediumDate' }}</span>
+                    <span class="date-none" *ngIf="!task.due_date">—</span>
+                </div>
+
+                <!-- Colonne Supprimer -->
+                <div class="col-actions">
+                    <button (click)="deleteTask(task.id)" class="btn-delete" title="Supprimer">
+                        ✕
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- État Vide -->
+    <div class="empty-state" *ngIf="!loading() && tasks().length === 0">
+        <p>Aucune tâche en cours. Utilisez le bouton en haut à droite pour commencer.</p>
+    </div>
+</div>

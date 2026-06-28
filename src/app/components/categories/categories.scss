@@ -1,0 +1,125 @@
+.categories-container {
+  padding: 30px;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+/* Formulaire */
+.category-form {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.category-form input {
+  padding: 12px;
+  width: 300px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.category-form button {
+  padding: 12px 20px;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* Liste */
+.categories-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Card */
+.category-card {
+  background: white;
+  padding: 18px;
+  border-radius: 12px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+/* Delete button */
+.delete-btn {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* =========================
+   TABLETTE (≤ 992px)
+========================= */
+@media (max-width: 992px) {
+  .category-form input {
+    width: 220px;
+  }
+
+  .categories-container {
+    padding: 20px;
+  }
+}
+
+/* =========================
+   MOBILE (≤ 768px)
+========================= */
+@media (max-width: 768px) {
+
+  .category-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .category-form input {
+    width: 100%;
+  }
+
+  .category-form button {
+    width: 100%;
+  }
+
+  .category-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .delete-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* =========================
+   PETIT MOBILE (≤ 480px)
+========================= */
+@media (max-width: 480px) {
+  .categories-container {
+    padding: 15px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  .category-card {
+    padding: 14px;
+  }
+
+  .category-form input,
+  .category-form button {
+    font-size: 14px;
+  }
+}

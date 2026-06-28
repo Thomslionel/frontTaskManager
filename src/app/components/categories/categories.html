@@ -1,0 +1,36 @@
+<div class="categories-container">
+  <h2>Gestion des catégories</h2>
+
+  <div class="category-form">
+    <input
+      type="text"
+      placeholder="Nom de catégorie"
+      [(ngModel)]="newCategoryName"
+    />
+    <button (click)="createCategory()">Ajouter</button>
+  </div>
+
+  <!-- AFFICHAGE DU CHARGEMENT -->
+  @if (loading()) {
+    <p>Chargement...</p>
+  }
+
+  <!-- AFFICHAGE DES CATÉGORIES - AJOUTEZ CE @if -->
+  @if (!loading && categories().length === 0) {
+    <p>Aucune catégorie trouvée</p>
+  }
+
+  <div class="categories-list">
+    @for (category of categories(); track category.id) {
+      <div class="category-card">
+        <span>{{ category.name }}</span>
+        <button class="delete-btn" (click)="deleteCategory(category.id)">
+          Supprimer
+        </button>
+      </div>
+    } @empty {
+      <!-- Ce block s'affiche si la liste est vide -->
+      <p>Aucune catégorie disponible</p>
+    }
+  </div>
+</div>

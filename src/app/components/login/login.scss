@@ -1,0 +1,153 @@
+.login-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background: linear-gradient(135deg, #4f46e5, #06b6d4);
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+h2 {
+  color: white;
+  margin-bottom: 20px;
+  font-size: 30px;
+}
+
+/* CARD */
+form {
+  background: white;
+  padding: 35px;
+  width: 380px;
+  border-radius: 16px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+}
+
+/* INPUTS */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+label {
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+input {
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  transition: 0.2s;
+}
+
+input:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79,70,229,0.2);
+}
+
+/* BUTTON */
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #4f46e5, #06b6d4);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* FOOTER */
+.form-footer {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  align-items: center;
+  font-size: 13px;
+}
+
+.form-footer span {
+  color: #6b7280;
+}
+
+.signup-btn {
+  background: transparent;
+  border: none;
+  color: #4f46e5;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.signup-btn:hover {
+  color: #06b6d4;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+
+  h2 {
+    font-size: 24px;
+  }
+
+  form {
+    width: 100%;
+    max-width: 360px;
+    padding: 25px;
+  }
+
+  input {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  button[type="submit"] {
+    font-size: 14px;
+  }
+
+  .form-footer {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  h2 {
+    font-size: 20px;
+  }
+
+  form {
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  label {
+    font-size: 12px;
+  }
+
+  input {
+    padding: 9px;
+  }
+
+  button[type="submit"] {
+    font-size: 13px;
+  }
+
+  .signup-btn {
+    font-size: 13px;
+  }
+}
