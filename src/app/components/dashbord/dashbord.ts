@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Auth } from '../../services/AuthService/auth';
 
 
-import { ChartConfiguration, ChartOptions } from 'chart.js';
+
 import { DashboardService } from '../../services/DashBoardService/dashboard-service';
 import { Categories } from "../categories/categories";
 import { Taches } from "../taches/taches";
