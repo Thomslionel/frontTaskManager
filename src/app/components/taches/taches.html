@@ -3,51 +3,74 @@
     <!-- EN-TÊTE DU TABLEAU DE BORD -->
     <header class="dashboard-header">
         <div class="header-info">
-            <h1>Mon Journal de Tâches</h1>
-            <p class="subtitle">Vue Liste • {{ tasks().length }} tâches enregistrées</p>
+            <h2>Mon Journal de Tâches</h2>
+            <p class="subtitle">Vue Liste • {{ tasks().length }} {{ tasks().length > 1 ? 'tâches enregistrées' : 'tâche enregistrée' }}</p>
         </div>
 
         <button class="btn-primary" (click)="showForm = !showForm" [class.active]="showForm">
-            {{ showForm ? '✕ Masquer' : '➕ Ajouter une tâche' }}
+            @if (showForm) {
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+                <span>Masquer</span>
+            } @else {
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                <span>Ajouter une tâche</span>
+            }
         </button>
     </header>
 
     <!-- FORMULAIRE EXTENSIBLE -->
     <div class="form-section" [class.is-open]="showForm">
         <form (ngSubmit)="createTask()" class="task-form">
-            <div class="form-row">
-                <input type="text" name="title" [(ngModel)]="newTask.title" placeholder="Intitulé de la tâche *"
-                    required class="input-main">
+            <div class="form-grid">
+                <div class="input-wrapper">
+                    <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                    <input type="text" name="title" [(ngModel)]="newTask.title" placeholder="Intitulé de la tâche *" required class="input-main">
+                </div>
 
-                <select name="category_id" [(ngModel)]="newTask.category_id" required class="select-field">
-                    <option [ngValue]="undefined" disabled selected>Sélectionner une catégorie *</option>
-                    <option *ngFor="let cat of categories()" [ngValue]="cat.id">{{ cat.name }}</option>
-                </select>
+                <div class="input-wrapper">
+                    <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                    <select name="category_id" [(ngModel)]="newTask.category_id" required class="select-field">
+                        <option [ngValue]="undefined" disabled selected>Sélectionner une catégorie *</option>
+                        <option *ngFor="let cat of categories()" [ngValue]="cat.id">{{ cat.name }}</option>
+                    </select>
+                </div>
 
-                <select name="priority" [(ngModel)]="newTask.priority" required class="select-field">
-                    <option [ngValue]="undefined" disabled selected>Priorité *</option>
-                    <option value="LOW">Basse</option>
-                    <option value="MEDIUM">Moyenne</option>
-                    <option value="HIGH">Haute</option>
-                </select>
+                <div class="input-wrapper">
+                    <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <select name="priority" [(ngModel)]="newTask.priority" required class="select-field">
+                        <option [ngValue]="undefined" disabled selected>Priorité *</option>
+                        <option value="LOW">Basse</option>
+                        <option value="MEDIUM">Moyenne</option>
+                        <option value="HIGH">Haute</option>
+                    </select>
+                </div>
 
-                <input type="date" name="due_date" [(ngModel)]="newTask.due_date" class="date-field">
+                <div class="input-wrapper">
+                    <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    <input type="date" name="due_date" [(ngModel)]="newTask.due_date" class="date-field">
+                </div>
             </div>
 
             <div class="form-row">
-                <textarea name="description" [(ngModel)]="newTask.description"
-                    placeholder="Description ou notes complémentaires..." class="textarea-field"></textarea>
+                <textarea name="description" [(ngModel)]="newTask.description" placeholder="Description ou notes complémentaires..." class="textarea-field"></textarea>
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="btn-success" [disabled]="loading()">
+                <button type="submit" class="btn-success" [disabled]="loading() || !newTask.title || !newTask.category_id || !newTask.priority">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
                     <span>Enregistrer la tâche</span>
                 </button>
             </div>
         </form>
     </div>
 
-    <!-- LISTE DES TÂCHES STYLE TABLEAU GESTIONNAIRE -->
+    <!-- LISTE DES TÂCHES STYLE TABLEAU MODERNE -->
     <div class="list-wrapper" *ngIf="tasks().length > 0">
 
         <!-- En-têtes de colonnes discrets -->
@@ -57,7 +80,7 @@
             <div class="col-meta">Catégorie</div>
             <div class="col-priority">Priorité</div>
             <div class="col-date">Échéance</div>
-            <div class="col-actions">Actions</div>
+            <div class="col-actions"></div>
         </div>
 
         <!-- Boucle unique sur toutes les tâches -->
@@ -65,19 +88,22 @@
             <div *ngFor="let task of tasks()" class="task-row"
                 [ngClass]="['prio-' + (task.priority | lowercase), 'status-' + (task.status | lowercase)]">
 
-                <!-- Colonne Statut : Sélecteur rapide ou indicateur -->
+                <!-- Colonne Statut -->
                 <div class="col-status">
-                    <select [ngModel]="task.status" (ngModelChange)="changeStatus(task, $event)" class="status-select">
-                        <option value="TODO">À faire</option>
-                        <option value="IN_PROGRESS">En cours</option>
-                        <option value="DONE">Terminé</option>
-                    </select>
+                    <div class="status-select-wrapper">
+                        <select [ngModel]="task.status" (ngModelChange)="changeStatus(task, $event)" class="status-select">
+                            <option value="TODO">À faire</option>
+                            <option value="IN_PROGRESS">En cours</option>
+                            <option value="DONE">Terminé</option>
+                        </select>
+                        <svg class="select-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
                 </div>
 
                 <!-- Colonne Principale : Titre + Description -->
                 <div class="col-main">
                     <div class="task-title-wrapper">
-                        <span class="status-dot"></span>
+                        <span class="status-indicator"></span>
                         <h3 class="task-title">{{ task.title }}</h3>
                     </div>
                     <p class="task-desc" *ngIf="task.description">{{ task.description }}</p>
@@ -86,25 +112,38 @@
                 <!-- Colonne Catégorie -->
                 <div class="col-meta">
                     <span class="tag-category">
+                        <svg class="tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
                         {{ getCategoryName(task.category_id) }}
                     </span>
                 </div>
 
                 <!-- Colonne Priorité -->
                 <div class="col-priority">
-                    <span class="badge-priority">{{ task.priority }}</span>
+                    <span class="badge-priority">
+                        <span class="badge-dot"></span>
+                        {{ task.priority === 'HIGH' ? 'Haute' : task.priority === 'MEDIUM' ? 'Moyenne' : 'Basse' }}
+                    </span>
                 </div>
 
                 <!-- Colonne Date -->
                 <div class="col-date">
-                    <span class="date-text" *ngIf="task.due_date">{{ task.due_date | date:'mediumDate' }}</span>
-                    <span class="date-none" *ngIf="!task.due_date">—</span>
+                    @if (task.due_date) {
+                        <span class="date-text">
+                            <svg class="date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                            {{ task.due_date | date:'mediumDate' }}
+                        </span>
+                    } @else {
+                        <span class="date-none">—</span>
+                    }
                 </div>
 
                 <!-- Colonne Supprimer -->
                 <div class="col-actions">
-                    <button (click)="deleteTask(task.id)" class="btn-delete" title="Supprimer">
-                        ✕
+                    <button (click)="deleteTask(task.id)" class="btn-delete" title="Supprimer la tâche">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
                     </button>
                 </div>
 
@@ -113,8 +152,12 @@
 
     </div>
 
-    <!-- État Vide -->
+    <!-- État Vide Épuré -->
     <div class="empty-state" *ngIf="!loading() && tasks().length === 0">
-        <p>Aucune tâche en cours. Utilisez le bouton en haut à droite pour commencer.</p>
+        <div class="empty-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg>
+        </div>
+        <h3>Votre journal est vide</h3>
+        <p>Aucune tâche planifiée pour le moment. Cliquez sur le bouton d'ajout ci-dessus pour vous organiser.</p>
     </div>
 </div>

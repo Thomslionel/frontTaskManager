@@ -8,6 +8,7 @@ import { Auth } from '../../services/AuthService/auth';
   imports: [ReactiveFormsModule, RouterModule],
   templateUrl: './login.html',
   styleUrl: './login.scss',
+  
 })
 export class Login {
 

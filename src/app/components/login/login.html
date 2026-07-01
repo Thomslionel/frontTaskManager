@@ -1,48 +1,101 @@
-<div class="login-container">
-  <h2>Connexion</h2>
+<div class="split-login-wrapper">
+  
+  <!-- PANNEAU VISUEL (GAUCHE) -->
+  <div class="brand-panel">
+    <div class="brand-content">
+      <!-- Un logo discret ou une icône applicative -->
+      <div class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span>TaskFlow</span>
+      </div>
+      
+      <h1>Centralise tes idées, maîtrise ton temps.</h1>
+      <p class="brand-tagline">Rejoins des milliers de personnes qui organisent leur quotidien sans friction.</p>
+      
+      <!-- Petite section statistiques / réassurance -->
+      <div class="brand-stats">
+        <div class="stat-item">
+          <span class="stat-num">99.9%</span>
+          <span class="stat-label">Disponibilité</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">10x</span>
+          <span class="stat-label">Plus focus</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <!-- PANNEAU FORMULAIRE (DROITE) -->
+  <div class="form-panel">
+    <div class="form-container">
+      
+      <div class="login-header">
+        <h2>Connexion</h2>
+        <p class="login-subtitle">Heureux de vous revoir ! Saisissez vos accès.</p>
+      </div>
 
-    <!-- Email -->
-    <div class="form-group">
-      <label>Email</label>
-      <input type="email" formControlName="email" />
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
 
-      @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
-        <div class="error-message">
-          @if (loginForm.get('email')?.hasError('required')) {
-            <span>Email obligatoire</span>
-          }
-          @if (loginForm.get('email')?.hasError('email')) {
-            <span>Email invalide</span>
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Adresse email</label>
+          <input 
+            id="email"
+            type="email" 
+            formControlName="email" 
+            placeholder="nom@exemple.com"
+            [class.has-error]="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
+          />
+
+          @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+            <div class="error-message">
+              @if (loginForm.get('email')?.hasError('required')) {
+                <span>L'email est requis.</span>
+              }
+              @if (loginForm.get('email')?.hasError('email')) {
+                <span>Format d'email incorrect.</span>
+              }
+            </div>
           }
         </div>
-      }
-    </div>
 
-    <!-- Password -->
-    <div class="form-group">
-      <label>Mot de passe</label>
-      <input type="password" formControlName="password" />
+        <!-- Password -->
+        <div class="form-group">
+          <div class="label-row">
+            <label for="password">Mot de passe</label>
+            <!-- <a routerLink="/forgot-password" class="forgot-link">Mot de passe oublié ?</a> -->
+          </div>
+          <input 
+            id="password"
+            type="password" 
+            formControlName="password" 
+            placeholder="••••••••"
+            [class.has-error]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+          />
 
-      @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
-        <div class="error-message">
-          <span>Minimum 6 caractères</span>
+          @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+            <div class="error-message">
+              <span>Le mot de passe doit faire au moins 6 caractères.</span>
+            </div>
+          }
         </div>
-      }
+
+        <!-- Submit -->
+        <button type="submit" class="btn-submit" [disabled]="loginForm.invalid">
+          <span>Se connecter au tableau de bord</span>
+        </button>
+
+        <!-- Footer d'aiguillage -->
+        <div class="form-footer">
+          <span>Pas encore inscrit ?</span>
+          <a class="signup-link" routerLink="/signup">Créer un compte gratuitement</a>
+        </div>
+
+      </form>
     </div>
+  </div>
 
-    <button type="submit" [disabled]="loginForm.invalid">
-      Se connecter
-    </button>
-
-    <!-- 🔥 bouton signup -->
-    <div class="form-footer">
-      <span>Pas encore de compte ?</span>
-      <button type="button" class="signup-btn" routerLink="/signup">
-        Créer un compte
-      </button>
-    </div>
-
-  </form>
 </div>

@@ -1,120 +1,196 @@
 <div class="dashboard-layout">
-
-  <!-- SIDEBAR -->
+  <!-- SIDEBAR (Desktop) -->
   <aside class="sidebar">
-    <h2>Task Manager</h2>
-
-    <nav>
-      <button [class.active]="selectedPage === 'dashboard'"
-              (click)="selectedPage='dashboard'">
-        🏠 Dashboard
-      </button>
-
-      <button [class.active]="selectedPage === 'categories'"
-              (click)="selectedPage='categories'">
-        📁 Catégories
-      </button>
-
-      <button [class.active]="selectedPage === 'tasks'"
-              (click)="selectedPage='tasks'">
-        ✅ Tâches
-      </button>
-
-      <button class="logout-btn" (click)="logout()">
-        🚪 Logout
-      </button>
-    </nav>
-  </aside>
-
-  <!-- MAIN -->
-  <main class="main-content">
-
-    <!-- TOPBAR (RESTE TOUJOURS VISIBLE) -->
-    <header class="topbar">
-      <h1>{{ pageTitle }}</h1>
-      <span>Bienvenue, {{ userName }}</span>
-    </header>
-
-    <!-- CONTENT -->
-    <section class="content">
-
-      <!-- LOADING -->
-      @if (loading) {
-        <p class="loading">Chargement du dashboard...</p>
-      }
-
-      <!-- DASHBOARD -->
-      @if (selectedPage === 'dashboard' && !loading) {
-
-        <div class="cards">
-
-          <div class="card primary">
-            <h3>📁 Catégories</h3>
-            <p>{{ totalCategories }}</p>
-          </div>
-
-          <div class="card">
-            <h3>📝 Tâches</h3>
-            <p>{{ totalTasks }}</p>
-          </div>
-
-          <div class="card success">
-            <h3>✅ Terminées</h3>
-            <p>{{ doneTasks }}</p>
-          </div>
-
-          <div class="card warning">
-            <h3>⏳ En cours</h3>
-            <p>{{ inProgressTasks }}</p>
-          </div>
-
-          <div class="card danger">
-            <h3>📌 À faire</h3>
-            <p>{{ todoTasks }}</p>
-          </div>
-
-        </div>
-
-      }
-
-      <!-- CATEGORIES PAGE -->
-      @if (selectedPage === 'categories') {
-        <app-categories></app-categories>
-      }
-
-      <!-- TASKS PAGE -->
-      @if (selectedPage === 'tasks') {
-        <app-taches></app-taches>
-      }
-
-    </section>
-
-
-
-    <!-- FOOTER -->
-<footer class="dashboard-footer">
-  <div class="footer-content">
-    
-    <p>© {{ currentYear }} Task Manager - Tous droits réservés</p>
-
-    <div class="social-links">
-      
-      <a href="https://www.linkedin.com/in/TON-PROFIL" target="_blank">
-        🔗 LinkedIn
-      </a>
-
-      <a href="https://wa.me/52027905" target="_blank">
-        📱 WhatsApp
-      </a>
-
-      <a href="mailto:thomsmanly@gmail.com">
-        ✉️ Email
-      </a>
-
+    <div class="brand">
+      <div class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+      </div>
+      <span class="brand-name">Task Manager</span>
     </div>
 
-  </div>
-</footer>
+    <nav class="sidebar-nav">
+      <button class="nav-tab" [class.active]="selectedPage === 'dashboard'" (click)="selectedPage='dashboard'">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        <span class="nav-label">Dashboard</span>
+      </button>
+
+      <button class="nav-tab" [class.active]="selectedPage === 'categories'" (click)="selectedPage='categories'">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span class="nav-label">Catégories</span>
+      </button>
+
+      <button class="nav-tab" [class.active]="selectedPage === 'tasks'" (click)="selectedPage='tasks'">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span class="nav-label">Tâches</span>
+      </button>
+    </nav>
+
+    <button class="logout-btn" (click)="logout()">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+        <polyline points="16 17 21 12 16 7"></polyline>
+        <line x1="21" y1="12" x2="9" y2="12"></line>
+      </svg>
+      <span class="nav-label">Déconnexion</span>
+    </button>
+  </aside>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="main-content">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <h1>{{ pageTitle }}</h1>
+      <div class="user-chip">
+        <span class="user-dot"></span>
+        <span class="user-name">Bienvenue, <strong>{{ userName }}</strong></span>
+      </div>
+    </header>
+
+    <!-- CONTENT INNER -->
+    <section class="content">
+
+      <!-- LOADING STATE -->
+      @if (loading) {
+        <div class="loading-state">
+          <div class="spinner-wrapper">
+            <div class="spinner"></div>
+          </div>
+          <p>Chargement de votre espace de travail...</p>
+        </div>
+      }
+
+      <!-- DASHBOARD PAGE -->
+      @if (selectedPage === 'dashboard' && !loading) {
+        <div class="cards-grid">
+          <!-- CARD: TOTAL CATEGORIES -->
+          <div class="card card--primary">
+            <div class="card-header">
+              <div class="card-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </div>
+              <p class="card-label">Catégories</p>
+            </div>
+            <p class="card-value">{{ totalCategories }}</p>
+          </div>
+
+          <!-- CARD: TOTAL TASKS -->
+          <div class="card card--info">
+            <div class="card-header">
+              <div class="card-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+              </div>
+              <p class="card-label">Tâches totales</p>
+            </div>
+            <p class="card-value">{{ totalTasks }}</p>
+          </div>
+
+          <!-- CARD: DONE TASKS -->
+          <div class="card card--success">
+            <div class="card-header">
+              <div class="card-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+              </div>
+              <p class="card-label">Terminées</p>
+            </div>
+            <p class="card-value">{{ doneTasks }}</p>
+          </div>
+
+          <!-- CARD: IN PROGRESS -->
+          <div class="card card--warning">
+            <div class="card-header">
+              <div class="card-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+              <p class="card-label">En cours</p>
+            </div>
+            <p class="card-value">{{ inProgressTasks }}</p>
+          </div>
+
+          <!-- CARD: TODO -->
+          <div class="card card--danger">
+            <div class="card-header">
+              <div class="card-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10.5a8.5 8.5 0 1 1-8.5-8.5v8.5z"></path>
+                  <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                </svg>
+              </div>
+              <p class="card-label">À faire</p>
+            </div>
+            <p class="card-value">{{ todoTasks }}</p>
+          </div>
+        </div>
+      }
+
+      <!-- SUB PAGES -->
+      @if (selectedPage === 'categories') {
+        <div class="page-fade-in">
+          <app-categories></app-categories>
+        </div>
+      }
+
+      @if (selectedPage === 'tasks') {
+        <div class="page-fade-in">
+          <app-taches></app-taches>
+        </div>
+      }
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="dashboard-footer">
+      <div class="footer-content">
+        <p>© {{ currentYear }} Task Manager — Tous droits réservés</p>
+        <div class="social-links">
+          <a href="https://www.linkedin.com/in/TON-PROFIL" target="_blank" aria-link="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+          </a>
+          <a href="https://wa.me/XXXX" target="_blank" aria-link="WhatsApp">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+          </a>
+          <a href="mailto:xxxxxxxx@gmail.com" aria-link="Email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          </a>
+        </div>
+      </div>
+    </footer>
   </main>
 
+  <!-- BOTTOM NAV (Mobile Only) -->
+  <nav class="bottom-nav">
+    <button class="bottom-nav-tab" [class.active]="selectedPage === 'dashboard'" (click)="selectedPage='dashboard'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    </button>
+    <button class="bottom-nav-tab" [class.active]="selectedPage === 'categories'" (click)="selectedPage='categories'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+    </button>
+    <button class="bottom-nav-tab" [class.active]="selectedPage === 'tasks'" (click)="selectedPage='tasks'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    </button>
+    <button class="bottom-nav-tab logout" (click)="logout()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+    </button>
+  </nav>
 </div>
