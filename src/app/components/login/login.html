@@ -1,20 +1,19 @@
 <div class="split-login-wrapper">
-  
-  <!-- PANNEAU VISUEL (GAUCHE) -->
+
   <div class="brand-panel">
     <div class="brand-content">
-      <!-- Un logo discret ou une icône applicative -->
       <div class="brand-logo">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
         </svg>
         <span>TaskFlow</span>
       </div>
-      
+
       <h1>Centralise tes idées, maîtrise ton temps.</h1>
-      <p class="brand-tagline">Rejoins des milliers de personnes qui organisent leur quotidien sans friction.</p>
-      
-      <!-- Petite section statistiques / réassurance -->
+      <p class="brand-tagline">
+        Rejoins des milliers de personnes qui organisent leur quotidien sans friction.
+      </p>
+
       <div class="brand-stats">
         <div class="stat-item">
           <span class="stat-num">99.9%</span>
@@ -28,74 +27,81 @@
     </div>
   </div>
 
-  <!-- PANNEAU FORMULAIRE (DROITE) -->
   <div class="form-panel">
     <div class="form-container">
-      
+
       <div class="login-header">
         <h2>Connexion</h2>
-        <p class="login-subtitle">Heureux de vous revoir ! Saisissez vos accès.</p>
+        <p class="login-subtitle">Heureux de vous revoir !</p>
       </div>
 
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
 
-        <!-- Email -->
         <div class="form-group">
           <label for="email">Adresse email</label>
-          <input 
+          <input
             id="email"
-            type="email" 
-            formControlName="email" 
+            type="email"
+            formControlName="email"
             placeholder="nom@exemple.com"
             [class.has-error]="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
           />
 
           @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
             <div class="error-message">
-              @if (loginForm.get('email')?.hasError('required')) {
-                <span>L'email est requis.</span>
-              }
-              @if (loginForm.get('email')?.hasError('email')) {
-                <span>Format d'email incorrect.</span>
-              }
+              <span>Email invalide</span>
             </div>
           }
         </div>
 
-        <!-- Password -->
         <div class="form-group">
-          <div class="label-row">
-            <label for="password">Mot de passe</label>
-            <!-- <a routerLink="/forgot-password" class="forgot-link">Mot de passe oublié ?</a> -->
+          <label for="password">Mot de passe</label>
+
+          <div class="password-wrapper">
+            <input
+              id="password"
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              placeholder="••••••••"
+              [class.has-error]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+            />
+
+            <button
+              type="button"
+              class="toggle-password"
+              (click)="togglePassword()">
+
+              @if (!showPassword) {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              } @else {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17.94 17.94A10.94 10.94 0 0112 20C5 20 1 12 1 12a21.8 21.8 0 015.06-6.94"/>
+                  <path d="M9.9 4.24A10.94 10.94 0 0112 4c7 0 11 8 11 8a21.8 21.8 0 01-4.35 5.94"/>
+                  <line x1="1" y1="1" x2="23" y2="23"/>
+                </svg>
+              }
+            </button>
           </div>
-          <input 
-            id="password"
-            type="password" 
-            formControlName="password" 
-            placeholder="••••••••"
-            [class.has-error]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
-          />
 
           @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
             <div class="error-message">
-              <span>Le mot de passe doit faire au moins 6 caractères.</span>
+              <span>Minimum 6 caractères</span>
             </div>
           }
         </div>
 
-        <!-- Submit -->
         <button type="submit" class="btn-submit" [disabled]="loginForm.invalid">
-          <span>Se connecter au tableau de bord</span>
+          Se connecter
         </button>
 
-        <!-- Footer d'aiguillage -->
         <div class="form-footer">
           <span>Pas encore inscrit ?</span>
-          <a class="signup-link" routerLink="/signup">Créer un compte gratuitement</a>
+          <a class="signup-link" routerLink="/signup">Créer un compte</a>
         </div>
-
       </form>
     </div>
   </div>
-
 </div>

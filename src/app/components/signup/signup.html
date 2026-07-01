@@ -9,14 +9,18 @@
         </svg>
         <span>TaskFlow</span>
       </div>
+
       <h1>Rejoins-nous et reprends le contrôle de ton temps.</h1>
-      <p class="brand-tagline">Crée ton compte en moins d'une minute et commence à organiser tes tâches dès aujourd'hui.</p>
+      <p class="brand-tagline">
+        Crée ton compte en moins d'une minute et commence à organiser tes tâches dès aujourd'hui.
+      </p>
 
       <div class="brand-stats">
         <div class="stat-item">
           <span class="stat-num">99.9%</span>
           <span class="stat-label">Disponibilité</span>
         </div>
+
         <div class="stat-item">
           <span class="stat-num">10x</span>
           <span class="stat-label">Plus focus</span>
@@ -30,7 +34,9 @@
     <div class="form-container">
       <div class="login-header">
         <h2>Créer un compte</h2>
-        <p class="login-subtitle">Renseigne tes informations pour démarrer.</p>
+        <p class="login-subtitle">
+          Renseigne tes informations pour démarrer.
+        </p>
       </div>
 
       <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="login-form">
@@ -42,9 +48,9 @@
             id="username"
             type="text"
             formControlName="username"
-            placeholder="jdupont"
             [class.has-error]="signupForm.get('username')?.touched && signupForm.get('username')?.invalid"
           />
+
           @if (signupForm.get('username')?.touched && signupForm.get('username')?.invalid) {
             <div class="error-message">
               <span>Le nom est obligatoire.</span>
@@ -59,14 +65,15 @@
             id="email"
             type="email"
             formControlName="email"
-            placeholder="nom@exemple.com"
             [class.has-error]="signupForm.get('email')?.touched && signupForm.get('email')?.invalid"
           />
+
           @if (signupForm.get('email')?.touched && signupForm.get('email')?.invalid) {
             <div class="error-message">
               @if (signupForm.get('email')?.hasError('required')) {
                 <span>Email obligatoire.</span>
               }
+
               @if (signupForm.get('email')?.hasError('email')) {
                 <span>Email invalide.</span>
               }
@@ -77,13 +84,38 @@
         <!-- Password -->
         <div class="form-group">
           <label for="password">Mot de passe</label>
-          <input
-            id="password"
-            type="password"
-            formControlName="password"
-            placeholder="••••••••"
-            [class.has-error]="signupForm.get('password')?.touched && signupForm.get('password')?.invalid"
-          />
+
+          <div class="password-wrapper">
+            <input
+              id="password"
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              placeholder="••••••••"
+              [class.has-error]="signupForm.get('password')?.touched && signupForm.get('password')?.invalid"
+            />
+
+            <button
+              type="button"
+              class="toggle-password"
+              (click)="togglePassword()">
+
+              @if (!showPassword) {
+                <!-- OEIL -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              } @else {
+                <!-- OEIL BARRÉ -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17.94 17.94A10.94 10.94 0 0112 20C5 20 1 12 1 12a21.8 21.8 0 015.06-6.94"/>
+                  <path d="M9.9 4.24A10.94 10.94 0 0112 4c7 0 11 8 11 8a21.8 21.8 0 01-4.35 5.94"/>
+                  <line x1="1" y1="1" x2="23" y2="23"/>
+                </svg>
+              }
+            </button>
+          </div>
+
           @if (signupForm.get('password')?.touched && signupForm.get('password')?.invalid) {
             <div class="error-message">
               <span>Minimum 6 caractères.</span>
@@ -96,7 +128,7 @@
           <span>Créer le compte</span>
         </button>
 
-        <!-- Footer d'aiguillage -->
+        <!-- Footer -->
         <div class="form-footer">
           <span>Déjà un compte ?</span>
           <a class="signup-link" routerLink="/login">Se connecter</a>

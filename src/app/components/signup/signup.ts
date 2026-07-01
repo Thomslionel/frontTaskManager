@@ -11,6 +11,7 @@ import { Auth } from '../../services/AuthService/auth';
 })
 export class Signup {
 
+    showPassword = false;
    signupForm: FormGroup;
 
   constructor(
@@ -38,4 +39,11 @@ export class Signup {
       }
     })
   }
+
+
+
+
+togglePassword() {
+  this.showPassword = !this.showPassword;
+}
 }

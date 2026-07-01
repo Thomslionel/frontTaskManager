@@ -12,6 +12,8 @@ import { Auth } from '../../services/AuthService/auth';
 })
 export class Login {
 
+  showPassword = false;
+
   loginForm : FormGroup;
 
   constructor(private fb : FormBuilder, private authService : Auth, private router : Router) {
@@ -36,5 +38,11 @@ export class Login {
       }
     })
   }
+
+
+
+  togglePassword() {
+  this.showPassword = !this.showPassword;
+}
 
 }
